@@ -17,3 +17,23 @@ Images are based on [ROS Open Container Initiative Images](https://github.com/sl
 | perception      | ❌     | ❌      | ❌        | `-`    |
 | simulation      | ❌     | ❌      | ❌        | `-`    |
 | desktop-full    | ❌     | ❌      | ❌        | `-`  |
+
+
+## How to build
+
+- create multiplatform builder
+
+`docker buildx create --platform linux/amd64,linux/arm/v8`
+
+- use multiplatform builder
+
+`docker buildx use <builder_name>`
+
+- build
+
+```
+docker build \
+    --platform linux/amd64,linux/arm64/v8 \
+    -t $DOCKER_HUB_USERNAME/ros2-dotnet:humble-8.0 \
+    --push .
+```
