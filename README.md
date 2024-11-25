@@ -29,10 +29,14 @@ Images are based on [ROS Open Container Initiative Images](https://github.com/sl
 
 `docker buildx use <builder_name>`
 
+- set DOCKER_HUB_USERNAME
+
+`DOCKER_HUB_USERNAME=<your_docker_username>`
+
 - build
 
 ```
-docker build \
+docker buildx build \
     --platform linux/amd64,linux/arm64/v8 \
     -t $DOCKER_HUB_USERNAME/ros2-dotnet:humble-8.0 \
     --push .
