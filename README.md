@@ -1,6 +1,6 @@
 # ros-dotnet-images
 
-ROS X .NET Docker images.
+ROS .NET Docker images.
 
 ## About the images
 
