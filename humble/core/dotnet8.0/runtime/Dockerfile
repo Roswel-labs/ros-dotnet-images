@@ -16,5 +16,8 @@ RUN apt-get update && \
     apt-get install -y aspnetcore-runtime-8.0 && \
     rm -rf /var/lib/apt/lists/*
 
+# Set LD_LIBRARY_PATH to include ROS 2 libraries
+ENV LD_LIBRARY_PATH=/opt/ros/humble/lib:$LD_LIBRARY_PATH
+
 # Set the default command
 CMD ["bash"]
