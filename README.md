@@ -2,24 +2,30 @@
 
 ROS .NET Docker images.
 
-## About the images
+## Images
 
-All images are Ubuntu based.
+Accessible at [Docker Hub](https://hub.docker.com/r/fxxholub/ros2-dotnet).
 
-Images are based on [ROS Open Container Initiative Images](https://github.com/sloretz/ros_oci_images/tree/main).
+All images are based on Ubuntu and [ROS Open Container Initiative Images](https://github.com/sloretz/ros_oci_images/tree/main).
 
-| Image           | amd64 | arm v7 | arm64 v8 | Full Image Name                            |
-|-----------------|-------|--------|----------|--------------------------------------------|
-| [ROS Humble](http://docs.ros.org/en/humble)                                                 |
-| ros-core        | ✅     | ❌      | ✅        | ``      |
-| ros-base        | ✅     | ❌      | ✅        | `TODO`      |
-| desktop         | ❌     | ❌      | ❌        | `-`       |
-| perception      | ❌     | ❌      | ❌        | `-`    |
-| simulation      | ❌     | ❌      | ❌        | `-`    |
-| desktop-full    | ❌     | ❌      | ❌        | `-`  |
+### Dotnet 8.0
+| ROS variant     | amd64 | arm/v7 | arm64/v8 |
+|-----------------|-------|--------|----------|
+| [ROS Humble](http://docs.ros.org/en/humble) |
+| ros-core        | ✅     | ❌      | ✅      |
+| ros-base        | ✅     | ❌      | ✅      |
+| desktop         | ❌     | ❌      | ❌      |
+| perception      | ❌     | ❌      | ❌      |
+| simulation      | ❌     | ❌      | ❌      |
+| desktop-full    | ❌     | ❌      | ❌      |
 
+## Building
 
-## How to build
+### Automatic
+
+Runs at 00:00 UTC on the 1st of every month, using GitHub actions. Images are pushed to the Docker Hub
+
+### Manual
 
 - create multiplatform builder
 
@@ -38,6 +44,6 @@ Images are based on [ROS Open Container Initiative Images](https://github.com/sl
 ```
 docker buildx build \
     --platform linux/amd64,linux/arm64/v8 \
-    -t $DOCKER_HUB_USERNAME/ros2-dotnet:humble-8.0 \
+    -t $DOCKER_HUB_USERNAME/ros2-dotnet:humble-core-8.0-runtime \
     --push .
 ```
