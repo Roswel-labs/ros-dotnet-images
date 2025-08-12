@@ -13,13 +13,13 @@ jobs:
       matrix:
         image:
           - name: humble-base-8.0-runtime
-            dockerfile: humble-base-8.0-runtime/Dockerfile
+            dockerfile: src/humble-base-8.0-runtime/Dockerfile
           - name: humble-base-8.0-sdk
-            dockerfile: humble-base-8.0-sdk/Dockerfile
+            dockerfile: src/humble-base-8.0-sdk/Dockerfile
           - name: humble-core-8.0-runtime
-            dockerfile: humble-core-8.0-runtime/Dockerfile
+            dockerfile: src/humble-core-8.0-runtime/Dockerfile
           - name: jazzy-core-8.0-runtime
-            dockerfile: jazzy-core-8.0-runtime/Dockerfile
+            dockerfile: src/jazzy-core-8.0-runtime/Dockerfile
 
     steps:
       - name: Checkout repository
