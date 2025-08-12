@@ -13,16 +13,12 @@ jobs:
         image:
           - name: humble-base-8.0-runtime
             dockerfile: humble-base-8.0-runtime/Dockerfile
-            tag_base: humble-base-8.0-runtime
           - name: humble-base-8.0-sdk
             dockerfile: humble-base-8.0-sdk/Dockerfile
-            tag_base: humble-base-8.0-sdk
           - name: humble-core-8.0-runtime
             dockerfile: humble-core-8.0-runtime/Dockerfile
-            tag_base: humble-core-8.0-runtime
           - name: jazzy-core-8.0-runtime
             dockerfile: jazzy-core-8.0-runtime/Dockerfile
-            tag_base: jazzy-core-8.0-runtime
 
     steps:
       - name: Checkout repository
@@ -52,8 +48,8 @@ jobs:
           platforms: linux/amd64,linux/arm64/v8 # Match your build platforms
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:${{ matrix.image.tag_base }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:${{ matrix.image.tag_base }}-${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:${{ matrix.image.name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:${{ matrix.image.name }}-${{ github.sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.created=${{ github.event.repository.updated_at }}
