@@ -1,0 +1,65 @@
+name: Build and Push ROS2 + .NET Images
+
+on:
+  schedule:
+    - cron: '0 0 1 * *' # Run at 00:00 UTC on the 1st of every month
+  workflow_dispatch: # Allow manual triggering for testing
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - name: humble-base-8.0-runtime
+            dockerfile: humble-base-8.0-runtime/Dockerfile
+            tags: |
+              ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:humble-base-8.0-runtime
+              ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:humble-base-8.0-runtime-${{ github.sha }}
+          - name: humble-base-8.0-sdk
+            dockerfile: humble-base-8.0-sdk/Dockerfile
+            tags: |
+              ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:humble-base-8.0-sdk
+              ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:humble-base-8.0-sdk-${{ github.sha }}
+          - name: humble-core-8.0-runtime
+            dockerfile: humble-core-8.0-runtime/Dockerfile
+            tags: |
+              ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:humble-core-8.0-runtime
+              ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:humble-core-8.0-runtime-${{ github.sha }}
+          - name: jazzy-core-8.0-runtime
+            dockerfile: jazzy-core-8.0-runtime/Dockerfile
+            tags: |
+              ${{ secrets.DOCKERHUB_USERNAME }}/ros2-dotnet:jazzy-core-8.0-runtime
+              ${{ secrets.DIZZLEHUB_USERNAME }}/ros2-dotnet:jazzy-core-8.0-runtime-${{ github.sha }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64/v8 # Match your build platforms
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64/v8 # Explicitly set platforms for builder
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.image.dockerfile }}
+          platforms: linux/amd64,linux/arm64/v8 # Match your build platforms
+          push: true
+          tags: ${{ matrix.image.tags }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.created=${{ github.event.repository.updated_at }}
